@@ -1,4 +1,13 @@
 import { renderArticle, renderCategory, renderHome, renderState, CATEGORIES, STATE_NAMES } from "./render.js";
+import {
+  campaignMetrics,
+  emailOutreach,
+  meetings,
+  researchQueue,
+  scoutStatus,
+  signalPipeline,
+  upsertLead,
+} from "./api.js";
 
 function categorySlug(name) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
@@ -77,6 +86,17 @@ export default {
     if (path === "/api/signals") {
       const rows = await latestSignals(env.DB, 100);
       return Response.json(rows);
+    }
+
+    // Dashboard API -- see site/README.md for the contract.
+    if (path === "/api/campaign-metrics") return campaignMetrics(env.DB);
+    if (path === "/api/pipeline") return signalPipeline(env.DB);
+    if (path === "/api/scout-status") return scoutStatus(env.DB);
+    if (path === "/api/outreach") return emailOutreach();
+    if (path === "/api/meetings") return meetings();
+    if (path === "/api/leads") {
+      if (request.method === "POST") return upsertLead(env.DB, request);
+      return researchQueue(env.DB, url);
     }
 
     return new Response("Not found", { status: 404 });
