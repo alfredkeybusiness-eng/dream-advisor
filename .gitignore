@@ -4,6 +4,7 @@ data/lake/
 # Python
 __pycache__/
 *.pyc
+*.db
 
 # Go
 /go/

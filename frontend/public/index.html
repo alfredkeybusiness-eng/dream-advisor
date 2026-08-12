@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Signal Desk</title>
+<style>
+  body { margin: 0; background: #f3f1ea; color: #1c2018; font-family: -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 32px 24px; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  .sub { color: #5c6355; font-size: 13px; margin-bottom: 24px; }
+  .notice { background: #f3e6c8; color: #4a3410; border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 20px; }
+  section { background: #fff; border: 1px solid #d9d4c4; border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; }
+  h2 { font-size: 14px; margin: 0 0 10px; }
+  pre { white-space: pre-wrap; word-break: break-word; font-size: 12px; background: #ebe7db; padding: 10px; border-radius: 6px; overflow-x: auto; }
+  .err { color: #a13f34; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Signal Desk</h1>
+  <div class="sub">dream-advisor &middot; placeholder static frontend</div>
+  <div class="notice">
+    This is a functional placeholder, not the final UI &mdash; see
+    <code>frontend/README.md</code>. It fetches the live backend and
+    renders raw JSON per section so the Render Blueprint has something
+    real to deploy. A design reference for the intended layout (Signal
+    Pipeline, Campaign Metrics, Research Queue, Scout Status, Email
+    Outreach, Calendar/Meetings) is linked from that README.
+  </div>
+
+  <section><h2>Campaign Metrics</h2><pre id="campaign-metrics">loading…</pre></section>
+  <section><h2>Signal Pipeline</h2><pre id="signals">loading…</pre></section>
+  <section><h2>Research Queue</h2><pre id="leads">loading…</pre></section>
+  <section><h2>Scout Status</h2><pre id="scout-status">loading…</pre></section>
+  <section><h2>Email Outreach</h2><pre id="outreach">loading…</pre></section>
+  <section><h2>Calendar / Meetings</h2><pre id="meetings">loading…</pre></section>
+</div>
+
+<script src="config.js"></script>
+<script>
+  const API = window.DREAM_ADVISOR_API;
+  const endpoints = {
+    "campaign-metrics": "/api/campaign-metrics",
+    "signals": "/api/signals",
+    "leads": "/api/leads",
+    "scout-status": "/api/scout-status",
+    "outreach": "/api/outreach",
+    "meetings": "/api/meetings",
+  };
+  for (const [id, path] of Object.entries(endpoints)) {
+    fetch(API + path)
+      .then((r) => r.json())
+      .then((data) => {
+        document.getElementById(id).textContent = JSON.stringify(data, null, 2);
+      })
+      .catch((e) => {
+        const el = document.getElementById(id);
+        el.textContent = "Could not reach " + API + path;
+        el.className = "err";
+      });
+  }
+</script>
+</body>
+</html>
