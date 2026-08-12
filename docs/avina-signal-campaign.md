@@ -110,6 +110,20 @@ Per user direction, this runs **in parallel** as its own workstream, not
 merged into the Avina retirement-lead campaign above. It has not been scoped
 or built yet.
 
+## Other lead-source tools evaluated (Apollo / Exa / Bright Data / Clay / Vibe Prospecting)
+
+Asked to also use Apollo, Exa, Clay, Bright Data, and Vibe Prospecting for
+targeted-lead generation. Actual capability in this session, checked before
+spending anything:
+
+| Tool | Status | Usable for lead generation? |
+|---|---|---|
+| Apollo.io | connected | **No** — only call/conversation-intelligence tools (transcript search, insights, recordings) are exposed here; no people/company search tool exists in this integration. |
+| Exa | not connected | **No** — not an installed connector for this org. |
+| Bright Data | not connected | **No** — not an installed connector for this org. |
+| Clay | connected | **Partial** — real prospecting, but scoped per-company (needs a known domain/LinkedIn URL to search contacts at). Good for enriching/verifying a specific business once named (e.g. from an Avina business-owner lead), not for open-ended "find all X in state Y" discovery. |
+| Vibe Prospecting | connected | **Yes**, but **paid** (Explorium credits; packages start at $29.90/900 credits, no free tier). A naive query (`job_level: owner/founder/president` + state only) pulled big-tech founders (Airbnb, Cisco, Google, Databricks, Salesforce) instead of SMB owners, for 10 credits. Corrected with `linkedin_category` (via required `autocomplete` step) + `company_size` + state, validated for 1 credit: matched **Derek Zobrist, Owner, Enovative Mechanical, Los Angeles, CA** — a real small-HVAC-contractor-owner match. 11 credits spent total on validation; user opted to stop there rather than fund a full pull across all industries/states for now.
+
 ## Next steps
 
 - Manually (or via a UI-created Routine) run `request_more_leads` on each
