@@ -30,6 +30,33 @@ table: contact/enrichment/outreach data belongs in a separate store per
 `docs/architecture.md` and must never be joined into what this Worker
 serves publicly.
 
+## Dashboard API (for the frontend build)
+
+Separate from the public content routes above — this is the contract for
+the internal dashboard (Signal Pipeline, Campaign Metrics, Research Queue,
+Scout Status, Email Outreach, Calendar/Meetings; matches the reference
+mockup published earlier as a Claude artifact). Backed by `leads`,
+`signal_defs`, and `scout_sources` — separate tables from
+`retirement_signals`, deliberately: those hold contact/campaign data, this
+table holds public article content, and the public site routes never touch
+the former.
+
+CORS is wide open (`*`) for now — no auth exists yet; tighten before this
+carries anything beyond this campaign's own read-mostly data.
+
+| Route | Returns |
+|---|---|
+| `GET /api/campaign-metrics` | `{leads_captured, signals_configured, contact_ready, flagged_for_review, leads_by_state, leads_by_profession_group}` |
+| `GET /api/pipeline` | Array of the 19 Avina signal defs: `{campaign_segment, avina_signal_id, state, target_profession_group, status, last_lead_count, last_run_at}` |
+| `GET /api/leads` (`?needs_review=true\|false`) | Array of leads (Research Queue) |
+| `POST /api/leads` | Upsert a lead by `lead_id` (JSON body, same shape as a lead row) — the daily-lead-rotation task or any other source pushes here |
+| `GET /api/scout-status` | Array of `{name, detail, status, status_label}` |
+| `GET /api/outreach` | `{configured: false, sequences: []}` — no Avina automation built yet |
+| `GET /api/meetings` | `{meetings: []}` — no outreach is live yet |
+
+Real data live right now: 9 leads, 19 signal defs, 5 scout sources — same
+numbers as the reference dashboard mockup.
+
 ## Local dev
 
 ```bash
