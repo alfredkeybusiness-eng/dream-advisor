@@ -110,6 +110,29 @@ Per user direction, this runs **in parallel** as its own workstream, not
 merged into the Avina retirement-lead campaign above. It has not been scoped
 or built yet.
 
+## Local lead database (SuperDB)
+
+All extracted leads now land in a local SuperDB database (`db/`, see
+`db/README.md`) rather than staying scattered across each source platform's
+own UI/API. It currently holds the **9 real leads** produced by the
+combined `Retirement Transition Prospects` signal's initial test batch —
+named individuals with dated, sourced retirement/transition events:
+
+Linda Hoff (CFO, Stanford Health Care, CA) · Lee Glover (Fire Chief, City of
+Frisco, TX) · Raymond Hill (Interim Fire Chief, Fort Worth, TX) · Maria F.
+Vazquez (Superintendent, Orange County Public Schools, FL) · Joel G. Baker
+(Fire Chief, Austin, TX) · Sharita Herrera (Principal, Killeen ISD, TX) ·
+Craig Bessent (Asst. Superintendent, Wylie ISD, TX) · Michael A. Cardona
+(Superintendent, San Marcos CISD, TX) · Chris Hughes (Interim Fire Chief,
+Daytona Beach, FL — note: the actual retiree of record here is his
+predecessor, Dru Driscoll; flagged in the record for verification before
+outreach).
+
+See `db/schema.md` for the record shape and `db/seed/leads_seed.ndjson` for
+the raw data. Future pulls from Avina (`query_signals`), Vibe Prospecting,
+or Clay should be normalized to this schema and loaded via
+`db/load_leads.py`.
+
 ## Other lead-source tools evaluated (Apollo / Exa / Bright Data / Clay / Vibe Prospecting)
 
 Asked to also use Apollo, Exa, Clay, Bright Data, and Vibe Prospecting for
