@@ -4,6 +4,9 @@ data/lake/
 # Python
 __pycache__/
 *.pyc
+*.db
 
 # Go
 /go/
+site/node_modules/
+site/.wrangler/

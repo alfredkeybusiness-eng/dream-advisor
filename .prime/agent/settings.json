@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "avina": {
+      "type": "http",
+      "url": "https://api.avina.io/mcp",
+      "oauth": true
+    }
+  }
+}
