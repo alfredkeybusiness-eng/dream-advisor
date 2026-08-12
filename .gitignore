@@ -1,0 +1,9 @@
+# SuperDB local lake storage (binary, machine-local)
+data/lake/
+
+# Python
+__pycache__/
+*.pyc
+
+# Go
+/go/
