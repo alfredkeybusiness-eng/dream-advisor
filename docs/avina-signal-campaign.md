@@ -98,7 +98,37 @@ trigger was deleted rather than left broken.
 **Until this is resolved**, generating each day's batch requires either:
 1. An active conversation turn (ask the assistant to run the next segment), or
 2. A Routine created directly from the claude.ai Routines UI, where the Avina
-   connector can be attached to the fired session.
+   connector can be attached to the fired session, or
+3. **Prime Agent** (below) — it runs the rotation itself, independent of
+   this limitation.
+
+## Daily automation via Prime Agent
+
+[Prime Agent](https://github.com/PrimeIntellect-ai/prime-agent) (Prime
+Intellect's open-source RLM coding/research agent) is set up as this
+project's actual daily-task runner, sidestepping the CCR Routine limitation
+above by using its own Avina MCP login rather than routing through this
+session's connector grant.
+
+- `.prime/agent/settings.json` — declares the `avina` MCP server
+  (`https://api.avina.io/mcp`, OAuth).
+- `.prime/agent/skills/avina/` — thin `McpIntegration` wrapper skill, so the
+  kernel can `import avina` and call its tools directly.
+- `.prime/agent/skills/daily-lead-rotation/` — the actual task: walks the 18
+  segments in `segments.py`, generates the first un-run one
+  (`request_more_leads`), and loads the results into the local SuperDB
+  `leads` pool (`db/`).
+
+Setup (one-time, per machine) and the `prime-agent schedule add` command are
+in `.prime/agent/skills/daily-lead-rotation/SKILL.md`. Requires: `/login` to
+Avina inside Prime Agent (browser OAuth — can't be done headlessly), and
+`db/serve.sh serve` running wherever the scheduled agent runs.
+
+**Known gap**: rows loaded this way carry `needs_review: true` — `full_name`,
+`job_title`, and `signal_category` aren't auto-parsed from Avina's freeform
+signal text, to avoid silently mislabeling a record when a signal mentions
+more than one person (e.g. a retiree and their successor — see the Chris
+Hughes / Dru Driscoll row in the seed data below).
 
 ## Parallel workstream (not built yet)
 
