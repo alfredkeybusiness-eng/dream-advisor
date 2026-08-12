@@ -8,3 +8,5 @@ __pycache__/
 
 # Go
 /go/
+site/node_modules/
+site/.wrangler/

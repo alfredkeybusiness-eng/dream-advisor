@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dream-advisor-retirement-intel",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-01",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "dream-advisor-retirement-intel",
+      "database_id": "224e2d9b-d743-45d8-b052-095455266a57"
+    }
+  ]
+}
